@@ -1,4 +1,4 @@
-#Pathfinding algorithm comparison
+# Pathfinding algorithm comparison
 
 ## Documents
 
