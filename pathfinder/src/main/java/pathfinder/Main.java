@@ -5,17 +5,16 @@
  */
 package pathfinder;
 
-/**
- *
- * @author pate
- */
+import ImageHandler.ImageHandler;
+
+
 public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        ImageHandler.main(args);
     }
     
 }

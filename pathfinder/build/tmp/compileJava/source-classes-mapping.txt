@@ -1,2 +1,8 @@
+Dijkstra/Vertex.java
+ Dijkstra.Vertex
+Dijkstra/Dijkstra.java
+ Dijkstra.Dijkstra
 pathfinder/Main.java
  pathfinder.Main
+ImageHandler/ImageHandler.java
+ ImageHandler.ImageHandler
