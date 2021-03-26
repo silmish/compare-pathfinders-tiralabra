@@ -108,8 +108,8 @@ public class ImageHandler extends Application {
         writer.setColor(249, 248, path);
         writer.setColor(247, 248, path);
         writer.setColor(248, 247, path);
-        /*Dijkstra algo = new Dijkstra();
-        algo.findPath(start);*/
+        Dijkstra algo = new Dijkstra();
+        algo.findPath(start);
 
     }
 
