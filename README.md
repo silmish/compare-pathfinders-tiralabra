@@ -9,3 +9,5 @@
 [Week report 1](documents/weekreport1.md)
 
 [Week report 2](documents/weekreport2.md)
+
+[Week report 3](documents/weekreport3.md)
