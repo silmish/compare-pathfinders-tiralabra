@@ -7,7 +7,6 @@ package pathfinder;
 
 import ImageHandler.ImageHandler;
 
-
 public class Main {
 
     /**
@@ -16,5 +15,5 @@ public class Main {
     public static void main(String[] args) {
         ImageHandler.main(args);
     }
-    
+
 }

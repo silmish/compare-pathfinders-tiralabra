@@ -5,26 +5,25 @@
  */
 package Dijkstra;
 
-
 /**
  *
  * @author pate
  */
 public class Vertex implements Comparable<Vertex> {
 
-    private int x, y, cost;
+    private int x, y;
     public Vertex[] adjacent;
     private boolean visited;
     private Vertex predecessor;
-    private int distance = Integer.MAX_VALUE;
+    private double distance = Integer.MAX_VALUE;
     public Vertex startVertex;
     public Vertex endVertex;
 
-    public Vertex(int x, int y, int cost) {
+    public Vertex(int x, int y, double distance) {
         adjacent = new Vertex[8];
         this.x = x;
         this.y = y;
-        this.cost = cost;
+        this.distance = distance;
     }
 
     public boolean isVisited() {
@@ -47,7 +46,7 @@ public class Vertex implements Comparable<Vertex> {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -81,14 +80,6 @@ public class Vertex implements Comparable<Vertex> {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     @Override
