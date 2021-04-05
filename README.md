@@ -4,6 +4,8 @@
 
 [Project specifications](documents/projectspecifications.md)
 
+[Hours report](documents/hoursreport.md)
+
 ## Weekly reports
 
 [Week report 1](documents/weekreport1.md)
