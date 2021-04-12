@@ -12,7 +12,6 @@ package Dijkstra;
 public class Vertex implements Comparable<Vertex> {
 
     private int x, y;
-    public Vertex[] adjacent;
     private boolean visited;
     private Vertex predecessor;
     private double distance = Integer.MAX_VALUE;
@@ -20,7 +19,6 @@ public class Vertex implements Comparable<Vertex> {
     public Vertex endVertex;
 
     public Vertex(int x, int y, double distance) {
-        adjacent = new Vertex[8];
         this.x = x;
         this.y = y;
         this.distance = distance;
@@ -50,12 +48,12 @@ public class Vertex implements Comparable<Vertex> {
         this.distance = distance;
     }
 
-    public void setStartVertex(Vertex vertex) {
-        this.startVertex = vertex;
+    public void setStartVertex(int x, int y) {
+        this.startVertex = new Vertex(x,y,0);
     }
 
-    public void setEndVertex(Vertex vertex) {
-        this.endVertex = vertex;
+    public void setEndVertex(int x, int y) {
+        this.endVertex = new Vertex(x,y,0);
     }
 
     public Vertex getStartVertex() {

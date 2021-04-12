@@ -15,4 +15,8 @@ Day | Time | What i did |
 31.3  | 5h   | Got new version of Dijkstra almost working |
 1.4   | 3h   | Tutoring session and got Dijkstra working |
 5.4   | 1h   | Added last weeks documents and did some few refactoring things on Dijkstra |
+6.4   | 4h   | Started with GUI for the program |
+7.4   | 5h   | First version of GUI and tried to fix a issue that came up with Dijkstra |
+8.4   | 4h   | Fixed an issue with Dijkstra and continued with GUI |
+5.9   | 3h   | Got GUI done, path drawing working |
 

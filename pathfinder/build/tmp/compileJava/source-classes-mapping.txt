@@ -1,10 +1,12 @@
+ImageHandler/FileHandler.java
+ ImageHandler.FileHandler
 Dijkstra/Vertex.java
  Dijkstra.Vertex
 Dijkstra/Dijkstra.java
  Dijkstra.Dijkstra
-ImageHandler/FileHandler.java
- ImageHandler.FileHandler
-pathfinder/Main.java
- pathfinder.Main
 ImageHandler/ImageHandler.java
  ImageHandler.ImageHandler
+UI/GUI.java
+ UI.GUI
+pathfinder/Main.java
+ pathfinder.Main

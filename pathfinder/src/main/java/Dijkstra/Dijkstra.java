@@ -5,7 +5,9 @@
  */
 package Dijkstra;
 
+import ImageHandler.ImageHandler;
 import java.util.PriorityQueue;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -16,47 +18,52 @@ public class Dijkstra {
     public char[][] map; // <-- käyttöliittymään
     public double[][] distance; // loput metodiin
     public Vertex[][] predecessor;
-    public boolean[] visited; // boolean taulukko, vaihda tähän
-    PriorityQueue<Vertex> priorityQueue; // Vaihda selkeempi nimi
+    PriorityQueue<Vertex> queue;
 
     public void findPath(int x, int y) {
-   
-        priorityQueue = new PriorityQueue<>();
 
-        priorityQueue.add(new Vertex(x, y, 0));
+        queue = new PriorityQueue<>();
+
+        boolean[][] visited = new boolean[512][512];
+
+        queue.add(new Vertex(x, y, 0));
         distance[x][y] = 0;
         predecessor[x][y] = null;
 
-        while (!priorityQueue.isEmpty()) {
+        while (!queue.isEmpty()) {
 
-            Vertex currentVertex = priorityQueue.poll();
-            //Lisää visited checki, muuten continue.
-            checkNeighbours(currentVertex);
+            Vertex currentVertex = queue.poll();
+            if (!visited[currentVertex.getX()][currentVertex.getY()]) {
+                checkNeighbours(currentVertex);
+            }
 
+            visited[currentVertex.getX()][currentVertex.getY()] = true;
         }
 
     }
 
     public void checkNeighbours(Vertex vertex) { // Lisää parametrit, mitä tarvitsee
 
-        //Lisää X ja Y tähän, refactoroi
+        int x = vertex.getX();
+        int y = vertex.getY();
+
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0 || vertex.getX() + i < 0 || vertex.getY() + j < 0 || vertex.getX() + i > map.length - 1) {
+                if (i == 0 && j == 0 || x + i < 0 || y + j < 0) {
                     continue;
                 }
-                if (map[vertex.getX() + i][vertex.getY() + j] == '.') {
+                if (map[x + i][y + j] == '.') {
                     double weight = 1;
                     if (i != 0 && j != 0) {
                         weight = Math.sqrt(2);
                     }
 
-                    if (distance[vertex.getX() + i][vertex.getY() + j] > distance[vertex.getX()][vertex.getY()] + weight) {
-                        distance[vertex.getX() + i][vertex.getY() + j] = distance[vertex.getX()][vertex.getY()] + weight;
+                    if (distance[x + i][y + j] > distance[x][y] + weight) {
+                        distance[x + i][y + j] = distance[x][y] + weight;
 
-                        Vertex adjacentVertex = new Vertex(vertex.getX() + i, vertex.getY() + j, distance[vertex.getX() + i][vertex.getY() + j]);
-                        predecessor[vertex.getX() + i][vertex.getY() + j] = new Vertex(vertex.getX(), vertex.getY(), 0);
-                        priorityQueue.add(adjacentVertex);
+                        Vertex adjacentVertex = new Vertex(x + i, y + j, distance[x + i][y + j]);
+                        predecessor[x + i][y + j] = new Vertex(x, y, 0);
+                        queue.add(adjacentVertex);
 
                     }
                 }
@@ -67,24 +74,29 @@ public class Dijkstra {
 
     }
 
-    public void printDistance(int x, int y) {
-        System.out.println("Distance from source to target is: " + distance[x][y]);
+    public double printDistance(int x, int y) {
+        return distance[x][y];
     }
 
-    public void printPath(int x, int y) {
+    public Vertex[] printPath(int x, int y) {
+        int index = 0;
+        Vertex[] path = new Vertex[262144];
 
-        while(true) {
-            //Piirrä kuvaan tässä
-            System.out.println(predecessor[predecessor[x][y].getX()][predecessor[x][y].getY()]);
+        while (true) {
             Vertex current = predecessor[x][y];
-            if(current == null){
-                System.out.println("Found path");
+            
+            path[index] = current;
+
+            if (current == null) {
                 break;
             }
-            x=current.getX();
-            y=current.getY();
-                    
+
+            x = current.getX();
+            y = current.getY();
+            
+            index++;
         }
+        return path;
     }
 
 }
