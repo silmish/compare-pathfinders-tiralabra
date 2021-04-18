@@ -5,9 +5,8 @@
  */
 package Dijkstra;
 
-import ImageHandler.ImageHandler;
+import ImageHandler.Vertex;
 import java.util.PriorityQueue;
-import javafx.scene.image.Image;
 
 /**
  *

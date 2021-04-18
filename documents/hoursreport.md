@@ -18,5 +18,8 @@ Day | Time | What i did |
 6.4   | 4h   | Started with GUI for the program |
 7.4   | 5h   | First version of GUI and tried to fix a issue that came up with Dijkstra |
 8.4   | 4h   | Fixed an issue with Dijkstra and continued with GUI |
-5.9   | 3h   | Got GUI done, path drawing working |
-
+9.4   | 3h   | Got GUI done, path drawing working |
+13.4  | 4h   | Reading about JPS |
+14.4  | 5h   | Studying JPS |
+16.4  | 6h   | Studying and generating a draft of how to set the solution up |
+18.4  | 1h   | Generater documents and small reading |

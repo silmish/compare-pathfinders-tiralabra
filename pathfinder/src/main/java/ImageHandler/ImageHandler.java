@@ -6,7 +6,6 @@
 package ImageHandler;
 
 import Dijkstra.Dijkstra;
-import Dijkstra.Vertex;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;

@@ -6,7 +6,7 @@
 package UI;
 
 import Dijkstra.Dijkstra;
-import Dijkstra.Vertex;
+import ImageHandler.Vertex;
 import ImageHandler.FileHandler;
 import ImageHandler.ImageHandler;
 import java.io.File;
