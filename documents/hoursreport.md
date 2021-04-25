@@ -23,3 +23,7 @@ Day | Time | What i did |
 14.4  | 5h   | Studying JPS |
 16.4  | 6h   | Studying and generating a draft of how to set the solution up |
 18.4  | 1h   | Generater documents and small reading |
+20.4  | 3h   | Working on the main structure of JPS |
+21.4  | 6h   | Working on the main strucutre of JPS |
+25.4  | 4h   | finished main structure of JPS, added documents and did code review |
+

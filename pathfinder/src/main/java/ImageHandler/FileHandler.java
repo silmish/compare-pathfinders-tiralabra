@@ -62,7 +62,7 @@ public class FileHandler {
         return graph;
     }
 
-    public double[][] initiateDistanceArray(File file) throws FileNotFoundException, IOException {
+    public double[][] initiateDistanceArray() throws FileNotFoundException, IOException {
 
         double[][] graph = new double[row+1][column+1];
 

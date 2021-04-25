@@ -193,7 +193,7 @@ public class GUI extends Application {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 try {
-                    dijkstraAlgo.distance = handler.initiateDistanceArray(map);
+                    dijkstraAlgo.distance = handler.initiateDistanceArray();
                 } catch (IOException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }

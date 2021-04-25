@@ -14,8 +14,8 @@ import java.util.PriorityQueue;
  */
 public class Dijkstra {
 
-    public char[][] map; // <-- käyttöliittymään
-    public double[][] distance; // loput metodiin
+    public char[][] map;
+    public double[][] distance;
     public Vertex[][] predecessor;
     PriorityQueue<Vertex> queue;
 
@@ -41,7 +41,7 @@ public class Dijkstra {
 
     }
 
-    public void checkNeighbours(Vertex vertex) { // Lisää parametrit, mitä tarvitsee
+    public void checkNeighbours(Vertex vertex) { 
 
         int x = vertex.getX();
         int y = vertex.getY();
