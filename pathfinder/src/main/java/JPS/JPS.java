@@ -6,6 +6,7 @@
 package JPS;
 
 import ImageHandler.Vertex;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 /**
@@ -20,23 +21,28 @@ public class JPS {
     public Vertex[][] successor;
     PriorityQueue<Vertex> queue;
     Vertex vertex = new Vertex(0, 0, 0);
+    Vertex end = new Vertex(229, 159, 0);
 
     public void searchPath(int x, int y) {
 
         queue = new PriorityQueue<>();
 
         boolean[][] visited = new boolean[512][512];
-
         queue.add(new Vertex(x, y, 0));
         predecessor[x][y] = null;
         distance[x][y] = 0;
+        int endX = end.getX();
+        int endY = end.getY();
 
         while (true) {
 
-            int endX = vertex.endVertex.getX();
-            int endY = vertex.endVertex.getY();
-
+            if (queue.isEmpty()) {
+                System.out.println("No path to endpoint");
+                break;
+            }
             Vertex currentVertex = queue.poll();
+            visited[currentVertex.getX()][currentVertex.getY()] = true;
+            
 
             if (currentVertex.getX() == endX && currentVertex.getY() == endY) {
                 //Add here pathdrawing
@@ -44,218 +50,163 @@ public class JPS {
                 break;
             }
 
-            if (queue.isEmpty()) {
-                System.out.println("No path to endpoint");
-                break;
+            Vertex[] successors = successors(currentVertex);
+            for (int i = 0; i < successors.length; i++) {
+                if (successors[i] != null && !visited[successors[i].getX()][successors[i].getY()]) {
+                    //System.out.println(successors[i]);
+                    queue.add(successors[i]);
+                }
             }
+        }
+    }
 
+    public Vertex[] successors(Vertex vertex) {
+        int x = vertex.getX();
+        int y = vertex.getY();
+        Vertex[] successors = new Vertex[9];
+        Vertex[] neighbours = checkNeighbours(vertex);
+        int parentX = 0;
+        int parentY = 0;
+
+        //System.out.println(Arrays.toString(neighbours));
+        if (predecessor[x][y] != null) {
+            parentX = predecessor[x][y].getX();
+            parentY = predecessor[x][y].getY();
         }
 
+        for (int i = 0; i < neighbours.length; i++) {
+            Vertex jump = jump(neighbours[i],x, y, parentX, parentY);
+            //System.out.println(jump);
+            successors[i] = jump;
+        }
+        return successors;
     }
 
     // Jump forward from each neighbour of a jump point
-    public Vertex[] jump(Vertex vertex) {
+    public Vertex jump(Vertex vertex,int x, int y, int parentX, int parentY) {
+        while (true) {
+            int directionX = (x - parentX) / Math.max(Math.abs(x - parentX), 1);
+            int directionY = (y - parentY) / Math.max(Math.abs(y - parentY), 1);
 
-        Vertex[] current = new Vertex[1];
+            if (map[x][y] != '.') {
+                return null;
+            }
+            if (x == end.getX() && y == end.getY()) {
+                //System.out.println(new Vertex(x, y, 0));
+                predecessor[x][y] = vertex;
+                return new Vertex(x, y, 0);
+            }
 
-        int x = vertex.getX();
-        int y = vertex.getY();
-        int parentX = predecessor[x][y].getX();
-        int parentY = predecessor[x][y].getY();
-        int directionX = 0;
-        int directionY = 0;
-        int endX = vertex.endVertex.getX();
-        int endY = vertex.endVertex.getY();
+            if (directionX == 0 && directionY == 0) {
+                if (directionX != 0) {
+                    if (map[x + directionX][y + 1] == '.' && map[x][y + 1] != '.'
+                            || map[x + directionX][y - 1] == '.' && map[x][y - 1] != '.') {
+                        predecessor[x][y] = vertex;
+                        return new Vertex(x, y, 0);
+                    }
+                } else {
+                    if (map[x + 1][y + directionY] == '.' && map[x + 1][y] != '.'
+                            || map[x - 1][y + directionY] == '.' && map[x - 1][y] != '.') {
+                        predecessor[x][y] = vertex;
+                        return new Vertex(x, y, 0);
+                    }
+                }
+            } else if (directionX != 0 && directionY != 0) {
+                if (map[x + directionX][y + directionY] == '.' && map[x + directionX][y] == '.' && map[x][y + directionY] == '.') {
+                    predecessor[x][y] = vertex;
+                    return new Vertex(x, y, 0);
+                }
 
-        // Check if the vertex has a predecessor, if not its starting point and direction determined by end coordinates
-        if (predecessor[x][y] == null) {
-            directionX = (endX - x) / Math.max(Math.abs(endX - x), 1);
-            directionY = (endY - y) / Math.max(Math.abs(endY - y), 1);
-        } else {
-            directionX = (x - parentX) / Math.max(Math.abs(x - parentX), 1);
-            directionY = (y - parentY) / Math.max(Math.abs(y - parentY), 1);
+            } else if (jump(vertex,x + directionX, y, x, y) != null || jump(vertex,x, y + directionY, x, y) != null) {
+                predecessor[x][y] = vertex;
+                return new Vertex(x, y, 0);
+
+            }
+            
+            x += directionX;
+            y += directionY;
         }
-
-        if (vertex.getX() == endX && vertex.getY() == endY) {
-            current[0] = new Vertex(x, y, 0);
-            return current;
-        }
-
-        // Check for forced neighbour when moving diagonally, if found return current vertex as jump point
-        if (directionX != 0 && directionY != 0) {
-            if (directionX == 1 && directionY == 1 && map[x - 1][y + 1] == '.' && map[x - 1][y] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-            if (directionX == -1 && directionY == 1 && map[x + 1][y + 1] == '.' && map[x + 1][y] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-            if (directionX == 1 && directionY == -1 && map[x - 1][y - 1] == '.' && map[x - 1][y] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-            if (directionX == -1 && directionY == -1 && map[x + 1][y - 1] == '.' && map[x + 1][y] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-        }
-
-        //Movement only along X-axis and return forced neighbours
-        if (directionY == 0 && directionX != 0) {
-            if (map[x + 1][y + 1] == '.' || map[x - 1][y + 1] == '.' && map[x][y + 1] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-            if (map[x + 1][y - 1] == '.' || map[x - 1][y - 1] == '.' && map[x][y - 1] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-
-            // Movement only along Y-axis and return forced neighbours    
-        } else {
-            if (map[x + 1][y + 1] == '.' || map[x + 1][y - 1] == '.' && map[x + 1][y] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-            if (map[x - 1][y - 1] == '.' || map[x - 1][y + 1] == '.' && map[x - 1][y] != '.') {
-                current[0] = new Vertex(x, y, 0);
-                return current;
-            }
-        }
-        if (map[x+directionX][y+directionY] == '.') {
-            Vertex jump = new Vertex(x + directionX, y + directionY, 0);
-            jump(jump);
-        } 
-
-        return null;
     }
 
     public Vertex[] checkNeighbours(Vertex vertex) { // add predecessor information to neighbours
+        Vertex[] neighbours = new Vertex[9];
         int x = vertex.getX();
         int y = vertex.getY();
-
+        int parentX = 0;
+        int parentY = 0;
         int index = 0;
 
-        Vertex[] neighbours = new Vertex[9];
+        if (predecessor[x][y] != null) {
+            parentX = predecessor[x][y].getX();
+            parentY = predecessor[x][y].getY();
+        }
 
         if (predecessor[x][y] == null) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     if (map[x + i][y + j] == '.') {
-
                         neighbours[index] = new Vertex(x + i, y + j, 0);
                         index++;
                     }
                 }
-
             }
-
             return neighbours;
         }
+        int directionX = (x - parentX) / Math.max(Math.abs(x - parentX), 1);
+        int directionY = (y - parentY) / Math.max(Math.abs(y - parentY), 1);
 
-        if (predecessor[x][y] != null) {
-            int parentX = predecessor[x][y].getX();
-            int parentY = predecessor[x][y].getY();
-            int directionX = (x - parentX) / Math.max(Math.abs(x - parentX), 1);
-            int directionY = (y - parentY) / Math.max(Math.abs(y - parentY), 1);
-
-            if (directionX != 0 && directionY != 0) {
-                if (directionX == 1 && directionY == 1) {
-                    if (map[x + 1][y + 1] == '.') {
-                        neighbours[0] = new Vertex(x + 1, y + 1, 0);
-                    } else if (map[x][y + 1] == '.') {
-                        neighbours[1] = new Vertex(x, y + 1, 0);
-                    } else if (map[x + 1][y] == '.') {
-                        neighbours[2] = new Vertex(x + 1, y, 0);
-                    } else if (map[x - 1][y] != '.' && map[x - 1][y + 1] == '.') {
-                        neighbours[3] = new Vertex(x - 1, y + 1, 0);
-                    }
-                    return neighbours;
-                }
-                if (directionX == -1 && directionY == -1) {
-                    if (map[x - 1][y - 1] == '.') {
-                        neighbours[0] = new Vertex(x - 1, y - 1, 0);
-                    } else if (map[x][y - 1] == '.') {
-                        neighbours[1] = new Vertex(x, y - 1, 0);
-                    } else if (map[x - 1][y] == '.') {
-                        neighbours[2] = new Vertex(x - 1, y, 0);
-                    } else if (map[x + 1][y - 1] != '.' && map[x + 1][y - 1] == '.') {
-                        neighbours[3] = new Vertex(x + 1, y - 1, 0);
-                    }
-                    return neighbours;
-                }
-                if (directionX == 1 && directionY == -1) {
-                    if (map[x + 1][y - 1] == '.') {
-                        neighbours[0] = new Vertex(x + 1, y - 1, 0);
-                    } else if (map[x][y - 1] == '.') {
-                        neighbours[1] = new Vertex(x, y - 1, 0);
-                    } else if (map[x + 1][y] == '.') {
-                        neighbours[2] = new Vertex(x + 1, y, 0);
-                    } else if (map[x - 1][y] != '.' && map[x - 1][y - 1] == '.') {
-                        neighbours[3] = new Vertex(x - 1, y - 1, 0);
-                    }
-                    return neighbours;
-                }
-
-                if (directionX == -1 && directionY == 1) {
-                    if (map[x - 1][y + 1] == '.') {
-                        neighbours[0] = new Vertex(x - 1, y + 1, 0);
-                    } else if (map[x][y + 1] == '.') {
-                        neighbours[1] = new Vertex(x, y + 1, 0);
-                    } else if (map[x - 1][y] == '.') {
-                        neighbours[2] = new Vertex(x - 1, y, 0);
-                    } else if (map[x + 1][y] != '.' && map[x + 1][y + 1] == '.') {
-                        neighbours[3] = new Vertex(x + 1, y + 1, 0);
-                    }
-                    return neighbours;
-                }
-
+        //System.out.println(directionX + " " + directionY);
+        if (directionX != 0 && directionY != 0) {
+            if (map[x][y + directionY] == '.') {
+                neighbours[0] = new Vertex(x, y + directionY, 0);
+                predecessor[x][y + directionY] = new Vertex(x, y, 0);
             }
+            if (map[x + directionX][y] == '.') {
+                neighbours[1] = new Vertex(x + directionX, y, 0);
+                predecessor[x + directionX][y] = new Vertex(x, y, 0);
+            }
+            if (map[x + directionX][y + directionY] == '.') {
+                neighbours[2] = new Vertex(x + directionX, y + directionY, 0);
+                predecessor[x + directionX][y + directionY] = new Vertex(x, y, 0);
+            }
+            if (map[x - directionX][y] != '.') {
+                neighbours[3] = new Vertex(x - directionX, y + directionY, 0);
+                predecessor[x - directionX][y + directionY] = new Vertex(x, y, 0);
+            }
+            if (map[x][y - directionY] != '.') {
+                neighbours[4] = new Vertex(x + directionX, y - directionY, 0);
+                predecessor[x + directionX][y - directionY] = new Vertex(x, y, 0);
+            }
+        } else {
             if (directionX == 0) {
-                if (map[x][y + 1] == '.' && directionY == 1) {
-                    neighbours[0] = new Vertex(x, y + 1, 0);
+                if (map[x][y + directionY] == '.') {
+                    neighbours[0] = new Vertex(x, y + directionY, 0);
+                    predecessor[x][y + directionY] = new Vertex(x, y, 0);
                 }
-                if (map[x][y - 1] == '.' && directionY == -1) {
-                    neighbours[1] = new Vertex(x, y - 1, 0);
+                if (map[x + 1][y] != '.') {
+                    neighbours[1] = new Vertex(x + 1, y + directionY, 0);
+                    predecessor[x][y + directionY] = new Vertex(x, y, 0);
                 }
-                if (map[x + 1][y] != '.' && map[x + 1][y + 1] == '.' && directionY == 1) {
-                    neighbours[2] = new Vertex(x + 1, y + 1, 0);
+                if (map[x - 1][y] != '.') {
+                    neighbours[2] = new Vertex(x - 1, y + directionY, 0);
+                    predecessor[x - 1][y + directionY] = new Vertex(x, y, 0);
                 }
-                if (map[x + 1][y] != '.' && map[x + 1][y - 1] == '.' && directionY == -1) {
-                    neighbours[3] = new Vertex(x + 1, y - 1, 0);
+            } else {
+
+                if (map[x + directionX][y] == '.') {
+                    neighbours[0] = new Vertex(x + directionX, y, 0);
+                    predecessor[x + directionX][y] = new Vertex(x, y, 0);
                 }
-                if (map[x - 1][y] != '.' && map[x - 1][y + 1] == '.' && directionY == 1) {
-                    neighbours[4] = new Vertex(x - 1, y + 1, 0);
+                if (map[x][y + 1] != '.') {
+                    neighbours[1] = new Vertex(x + directionX, y + 1, 0);
+                    predecessor[x + directionX][y + 1] = new Vertex(x, y, 0);
                 }
-                if (map[x - 1][y] != '.' && map[x - 1][y - 1] == '.' && directionY == -1) {
-                    neighbours[5] = new Vertex(x - 1, y - 1, 0);
+                if (map[x][y - 1] != '.') {
+                    neighbours[2] = new Vertex(x + directionX, y - 1, 0);
+                    predecessor[x + directionX][y - 1] = new Vertex(x, y, 0);
                 }
             }
-
-            if (directionY == 0) {
-                if (map[x + 1][y] == '.' && directionX == 1) {
-                    neighbours[0] = new Vertex(x + 1, y, 0);
-                }
-                if (map[x - 1][y] == '.' && directionX == -1) {
-                    neighbours[1] = new Vertex(x - 1, y, 0);
-                }
-                if (map[x][y + 1] != '.' && map[x + 1][y + 1] == '.' && directionX == 1) {
-                    neighbours[2] = new Vertex(x + 1, y + 1, 0);
-                }
-                if (map[x][y + 1] != '.' && map[x - 1][y + 1] == '.' && directionX == -1) {
-                    neighbours[3] = new Vertex(x - 1, y + 1, 0);
-                }
-                if (map[x][y - 1] != '.' && map[x + 1][y - 1] == '.' && directionX == 1) {
-                    neighbours[4] = new Vertex(x + 1, y - 1, 0);
-                }
-                if (map[x][y - 1] != '.' && map[x - 1][y - 1] == '.' && directionX == -1) {
-                    neighbours[5] = new Vertex(x - 1, y - 1, 0);
-                }
-            }
-
         }
         return neighbours;
     }
-
 }

@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import JPS.JPS;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //GUI.main(args);
 
-        /*File map = new File("src/main/java/Images/Map1.map");
+       File map = new File("src/main/java/Images/Map1.map");
         JPS test = new JPS();
 
         FileHandler handler = new FileHandler();
@@ -38,10 +39,12 @@ public class Main {
 
         Vertex start = new Vertex(122, 199, 0);
         test.predecessor[start.getX()][start.getY()] = null;
-
-        Vertex[] neighbours = test.checkNeighbours(start);
-
-        System.out.println(Arrays.toString(neighbours));*/
+        
+        //System.out.println(Arrays.toString(test.checkNeighbours(start)));
+        
+        test.searchPath(160, 104);
+        
+        
 
     }
 

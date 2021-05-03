@@ -17,3 +17,5 @@
 [Week report 4](documents/weekreport4.md)
 
 [Week report 5](documents/weekreport5.md)
+
+[Week report 6](documents/weekreport6.md)

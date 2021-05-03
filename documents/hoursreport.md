@@ -26,4 +26,7 @@ Day | Time | What i did |
 20.4  | 3h   | Working on the main structure of JPS |
 21.4  | 6h   | Working on the main strucutre of JPS |
 25.4  | 4h   | finished main structure of JPS, added documents and did code review |
-
+27.4  | 5h   | Tried to get JPS to work |
+28.4  | 2h   | Tried to get JPS to work |
+29.4  | 5h   | Figured there were some issues with 2 methods, 1 is fixed but other one not |
+1.5   | 4h   | Tried to fix the issue, no luck |

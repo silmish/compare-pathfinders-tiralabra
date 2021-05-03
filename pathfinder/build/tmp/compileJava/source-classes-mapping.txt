@@ -1,14 +1,14 @@
 UI/GUI.java
  UI.GUI
-JPS/JPS.java
- JPS.JPS
+ImageHandler/ImageHandler.java
+ ImageHandler.ImageHandler
 Dijkstra/Dijkstra.java
  Dijkstra.Dijkstra
 ImageHandler/Vertex.java
  ImageHandler.Vertex
 ImageHandler/FileHandler.java
  ImageHandler.FileHandler
+JPS/JPS.java
+ JPS.JPS
 pathfinder/Main.java
  pathfinder.Main
-ImageHandler/ImageHandler.java
- ImageHandler.ImageHandler
