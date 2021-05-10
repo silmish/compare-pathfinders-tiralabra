@@ -22,6 +22,7 @@ public class Vertex implements Comparable<Vertex> {
         this.x = x;
         this.y = y;
         this.distance = distance;
+
     }
 
     public boolean isVisited() {

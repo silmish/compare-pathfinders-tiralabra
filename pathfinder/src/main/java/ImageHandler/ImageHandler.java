@@ -5,6 +5,7 @@
  */
 package ImageHandler;
 
+import JPS.Vertex;
 import Dijkstra.Dijkstra;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -26,7 +27,7 @@ public class ImageHandler {
     public void setWriteableImage(Image image) throws InterruptedException {
         black = Color.BLACK;
         red = Color.RED;
-        
+
         height = (int) image.getHeight();
         width = (int) image.getWidth();
 
@@ -53,8 +54,15 @@ public class ImageHandler {
 
     }
 
-    public void drawPath(int x, int y, Vertex[] vertex) {
-        
+    /**
+     *
+     * @param x
+     * @param y
+     * @param vertex
+     * @param algo
+     */
+    public void drawPath(int x, int y, Vertex[] vertex, String algo) {
+
         Vertex[] path = vertex;
 
         PixelReader reader = drawableImage.getPixelReader();
@@ -76,11 +84,17 @@ public class ImageHandler {
             yCoordinates++;
         }
 
+        Color pathColor = Color.WHITE;
+
+        if ("dijkstra".equals(algo)) {
+            pathColor = Color.RED;
+        }
+
         for (Vertex draw : path) {
             if (draw == null) {
                 break;
             }
-            writer.setColor(draw.getY(), draw.getX(), red);
+            writer.setColor(draw.getY(), draw.getX(), pathColor);
         }
 
     }

@@ -6,9 +6,11 @@
 package UI;
 
 import Dijkstra.Dijkstra;
-import ImageHandler.Vertex;
+//import ImageHandler.Vertex;
+import JPS.Vertex;
 import ImageHandler.FileHandler;
 import ImageHandler.ImageHandler;
+import JPS.JPS;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -41,6 +45,7 @@ public class GUI extends Application {
 
     Vertex vertex = new Vertex(0, 0, 0);
     Dijkstra dijkstraAlgo = new Dijkstra();
+    JPS jpsAlgo = new JPS();
     FileHandler handler = new FileHandler();
     ImageHandler imageHandler = new ImageHandler();
     Image picture;
@@ -178,30 +183,56 @@ public class GUI extends Application {
             }
         });
 
-        start.setOnMouseClicked(e -> {
-            if (dijkstra.isSelected()) {
-                File map = new File("src/main/java/Images/Map1.map");
+        start.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+               /* if (dijkstra.isSelected()) {
+                    File map = new File("src/main/java/Images/Map1.map");
 
-                try {
-                    handler.countRows(map);
-                } catch (IOException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        handler.countRows(map);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        dijkstraAlgo.map = handler.createMap(map);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        dijkstraAlgo.distance = handler.initiateDistanceArray();
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    dijkstraAlgo.predecessor = handler.initiateParentCount();
+                    dijkstraAlgo.findPath(vertex.startVertex.getX(), vertex.startVertex.getY());
+                    distance.setText(String.valueOf(dijkstraAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
+                    imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), dijkstraAlgo.printPath(vertex.endVertex.getX(), vertex.endVertex.getY()), "dijkstra");
+                    imageView.setImage(imageHandler.drawableImage);
+                }*/
+                if (jump.isSelected()) {
+                    File map = new File("src/main/java/Images/Map1.map");
+                    try {
+                        handler.countRows(map);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        jpsAlgo.map = handler.createMap(map);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        jpsAlgo.distance = handler.initiateDistanceArray();
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    //System.out.println(vertex.getEndVertex());
+                    jpsAlgo.predecessor = handler.initiateParentCount();
+                    jpsAlgo.searchPath(vertex.startVertex, vertex.endVertex);
+                    imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), jpsAlgo.printPath(vertex.startVertex, vertex.endVertex), "JPS");
+                    imageView.setImage(imageHandler.drawableImage);
                 }
-                try {
-                    dijkstraAlgo.map = handler.createMap(map);
-                } catch (IOException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                try {
-                    dijkstraAlgo.distance = handler.initiateDistanceArray();
-                } catch (IOException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                dijkstraAlgo.predecessor = handler.initiateParentCount();
-                dijkstraAlgo.findPath(vertex.startVertex.getX(), vertex.startVertex.getY());
-                distance.setText(String.valueOf(dijkstraAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
-                imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), dijkstraAlgo.printPath(vertex.endVertex.getX(), vertex.endVertex.getY()));
-                imageView.setImage(imageHandler.drawableImage);
             }
         });
 
