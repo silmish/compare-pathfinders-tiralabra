@@ -1,17 +1,15 @@
-Dijkstra/Dijkstra.java
- Dijkstra.Dijkstra
-ImageHandler/FileHandler.java
- ImageHandler.FileHandler
 ImageHandler/Vertex.java
  ImageHandler.Vertex
+ImageHandler/FileHandler.java
+ ImageHandler.FileHandler
+JPS/JPS.java
+ JPS.JPS
 ImageHandler/ImageHandler.java
  ImageHandler.ImageHandler
-pathfinder/Main.java
- pathfinder.Main
-JPS/Vertex.java
- JPS.Vertex
+Dijkstra/Dijkstra.java
+ Dijkstra.Dijkstra
 UI/GUI.java
  UI.GUI
  UI.GUI$1
-JPS/JPS.java
- JPS.JPS
+pathfinder/Main.java
+ pathfinder.Main

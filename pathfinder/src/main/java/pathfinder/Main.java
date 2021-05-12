@@ -5,25 +5,16 @@
  */
 package pathfinder;
 
-import Dijkstra.Dijkstra;
-import JPS.Vertex;
-import ImageHandler.FileHandler;
-import ImageHandler.ImageHandler;
 import UI.GUI;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import JPS.JPS;
-import java.lang.reflect.Array;
-import java.util.Arrays;
+
+
 
 public class Main {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) {
         GUI.main(args);
 
         /*File map = new File("src/main/java/Images/Map1.map");
@@ -45,7 +36,6 @@ public class Main {
         //System.out.println(Arrays.toString(handler.createMap(map)));
         //System.out.println(Arrays.toString(test.checkNeighbours(start)));
         //test.searchPath(161, 103, end);*/
-
     }
 
 }

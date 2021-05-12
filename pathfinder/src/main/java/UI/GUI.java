@@ -6,8 +6,8 @@
 package UI;
 
 import Dijkstra.Dijkstra;
-//import ImageHandler.Vertex;
-import JPS.Vertex;
+import ImageHandler.Vertex;
+//import JPS.Vertex;
 import ImageHandler.FileHandler;
 import ImageHandler.ImageHandler;
 import JPS.JPS;
@@ -87,8 +87,8 @@ public class GUI extends Application {
         TextField endY = new TextField();
         endY.setMaxWidth(60);
 
-        TextField distance = new TextField();
-        distance.setMaxWidth(80);
+        TextField Time = new TextField();
+        Time.setMaxWidth(120);
 
         Label startXcord = new Label("Start X");
         Label startYcord = new Label("Start Y");
@@ -127,7 +127,7 @@ public class GUI extends Application {
         grid.add(endY, 1, 17, 17, 17);
 
         grid.add(distanceTo, 0, 20, 20, 20);
-        grid.add(distance, 1, 20, 20, 20);
+        grid.add(Time, 1, 20, 20, 20);
 
         grid.add(start, 0, 25, 25, 25);
         grid.add(clear, 5, 25, 25, 25);
@@ -186,7 +186,7 @@ public class GUI extends Application {
         start.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-               /* if (dijkstra.isSelected()) {
+               if (dijkstra.isSelected()) {
                     File map = new File("src/main/java/Images/Map1.map");
 
                     try {
@@ -206,10 +206,10 @@ public class GUI extends Application {
                     }
                     dijkstraAlgo.predecessor = handler.initiateParentCount();
                     dijkstraAlgo.findPath(vertex.startVertex.getX(), vertex.startVertex.getY());
-                    distance.setText(String.valueOf(dijkstraAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
+                    //Time.setText(String.valueOf(dijkstraAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
                     imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), dijkstraAlgo.printPath(vertex.endVertex.getX(), vertex.endVertex.getY()), "dijkstra");
                     imageView.setImage(imageHandler.drawableImage);
-                }*/
+                }
                 if (jump.isSelected()) {
                     File map = new File("src/main/java/Images/Map1.map");
                     try {
@@ -229,7 +229,7 @@ public class GUI extends Application {
                     }
                     //System.out.println(vertex.getEndVertex());
                     jpsAlgo.predecessor = handler.initiateParentCount();
-                    jpsAlgo.searchPath(vertex.startVertex, vertex.endVertex);
+                    Time.setText(jpsAlgo.searchPath(vertex.startVertex, vertex.endVertex));
                     imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), jpsAlgo.printPath(vertex.startVertex, vertex.endVertex), "JPS");
                     imageView.setImage(imageHandler.drawableImage);
                 }
@@ -243,7 +243,7 @@ public class GUI extends Application {
             startY.clear();
             endX.clear();
             endY.clear();
-            distance.clear();
+            Time.clear();
             startBox.setSelected(false);
             endBox.setSelected(false);
             try {

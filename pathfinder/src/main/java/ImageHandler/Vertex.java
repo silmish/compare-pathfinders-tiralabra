@@ -23,6 +23,7 @@ public class Vertex implements Comparable<Vertex> {
         this.y = y;
         this.distance = distance;
 
+
     }
 
     public boolean isVisited() {
@@ -90,5 +91,6 @@ public class Vertex implements Comparable<Vertex> {
     public int compareTo(Vertex otherVertex) {
         return Double.compare(this.distance, otherVertex.getDistance());
     }
+    
 
 }

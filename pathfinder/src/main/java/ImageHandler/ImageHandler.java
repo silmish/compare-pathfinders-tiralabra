@@ -5,7 +5,6 @@
  */
 package ImageHandler;
 
-import JPS.Vertex;
 import Dijkstra.Dijkstra;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -84,7 +83,7 @@ public class ImageHandler {
             yCoordinates++;
         }
 
-        Color pathColor = Color.WHITE;
+        Color pathColor = Color.BLUE;
 
         if ("dijkstra".equals(algo)) {
             pathColor = Color.RED;
