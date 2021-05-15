@@ -9,18 +9,20 @@ All the tests were repeated 5 times and runtime average have been displayed unde
 No separate performance test logic has been built, meaning all the test were manualy done and calculated.
 
 
-![Map 1](pathfinder/src/main/java/images/Map1.png)
+![Map 1](/pathfinder/src/main/java/images/Map1.png)
 
 Start X: 46, Y: 366
 End X: 285, Y: 456
 
+</br>
 Map 1 | Distance | Time |
 -------------------------------------------------------
 JPS | 860,8 | 11 ms |
 Dijkstra | 860,8 | 97 ms |
 
+</br>
 
-![Map 3](pathfinder/src/main/java/images/Map3.png)
+![Map 3](/pathfinder/src/main/java/images/Map3.png)
 
 Start X: 101, Y: 196
 End X: 167, Y: 358
@@ -30,7 +32,7 @@ Map 3 | Distance | Time |
 JPS | 1178 | 9 ms |
 Dijkstra | 1178 | 76 ms |
 
-![Map 4](pathfinder/src/main/java/images/Map4.png)
+![Map 4](/pathfinder/src/main/java/images/Map4.png)
 
 Start X: 349, Y: 148
 End X: 503, Y: 339
