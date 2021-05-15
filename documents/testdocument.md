@@ -2,14 +2,14 @@
 
 ## Performance tests
 
-For performance testing various maps from [Moving AI](www.movingai.com). Maps that were used were from Baldurs Gate 2, scaled 512x512 map size.
+For performance testing various maps from [Moving AI](https://movingai.com/benchmarks). Maps that were used were from Baldurs Gate 2, scaled 512x512 map size.
 
 All the tests were repeated 5 times and runtime average have been displayed under "Time" with each algorithm.
 
 No separate performance test logic has been built, meaning all the test were manualy done and calculated.
 
 
-![Map 1](/pathfinder/src/main/java/images/Map1.png)
+![Map 1](compare-pathfinders-tiralabra/pathfinder/src/main/java/images/Map1.png)
 
 Start X: 46, Y: 366
 End X: 285, Y: 456
@@ -21,7 +21,7 @@ JPS | 860,8 | 11 ms |
 Dijkstra | 860,8 | 97 ms |
 
 
-![Map 3](/pathfinder/src/main/java/images/Map3.png)
+![Map 3](compare-pathfinders-tiralabra/pathfinder/src/main/java/images/Map3.png)
 
 Start X: 101, Y: 196
 End X: 167, Y: 358
@@ -31,7 +31,7 @@ Map 3 | Distance | Time |
 JPS | 1178 | 9 ms |
 Dijkstra | 1178 | 76 ms |
 
-![Map 4](/pathfinder/src/main/java/images/Map4.png)
+![Map 4](compare-pathfinders-tiralabra/pathfinder/src/main/java/images/Map4.png)
 
 Start X: 349, Y: 148
 End X: 503, Y: 339
