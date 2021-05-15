@@ -1,6 +1,6 @@
 # Project Structure
 
-![Project Structure](documents/projectstructure.png)
+![Project Structure](https://github.com/silmish/compare-pathfinders-tiralabra/blob/master/documents/projectstructure.png)
 
 Project structure is quite simple. Most classes have their own package, only ImageHandler package includes multiple classes.
 

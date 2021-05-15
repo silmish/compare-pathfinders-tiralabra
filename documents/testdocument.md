@@ -1,5 +1,11 @@
 # Testing document
 
+## Unit test
+
+Unit tests have been made really fast in the end of the project and do not cover much of the code.
+
+Imagehandler and GUI has been excluded from the tests.
+
 ## Performance tests
 
 For performance testing various maps from [Moving AI](https://movingai.com/benchmarks). Maps that were used were from Baldurs Gate 2, scaled 512x512 map size.
