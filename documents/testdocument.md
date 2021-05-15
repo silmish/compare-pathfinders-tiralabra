@@ -14,13 +14,12 @@ No separate performance test logic has been built, meaning all the test were man
 Start X: 46, Y: 366
 End X: 285, Y: 456
 
-</br>
+
 Map 1 | Distance | Time |
 |--|--|--|
 JPS | 860,8 | 11 ms |
 Dijkstra | 860,8 | 97 ms |
 
-</br>
 
 ![Map 3](/pathfinder/src/main/java/images/Map3.png)
 
