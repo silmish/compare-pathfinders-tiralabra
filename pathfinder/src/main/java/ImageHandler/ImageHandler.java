@@ -12,20 +12,28 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+/**
+ * Class that handles image reading and updating
+ *
+ * @author pate
+ */
 public class ImageHandler {
 
     public WritableImage drawableImage;
     int height, width;
-    Color black, red;
     Dijkstra algo = new Dijkstra();
 
     public void ImageHandler() {
 
     }
 
+    /**
+     * Generates an writeable image of the image file that is read.
+     *
+     * @param image image file that is read
+     * @throws InterruptedException
+     */
     public void setWriteableImage(Image image) throws InterruptedException {
-        black = Color.BLACK;
-        red = Color.RED;
 
         height = (int) image.getHeight();
         width = (int) image.getWidth();
@@ -54,13 +62,14 @@ public class ImageHandler {
     }
 
     /**
+     * Draws the shortest path between start and end Vertex.
+     * 
      *
-     * @param x
-     * @param y
-     * @param vertex
-     * @param algo
+     * @param vertex Array of vertexes between start and end.
+     * @param algo Parameter to define which algorithm is used and path color is
+     * chosen by it.
      */
-    public void drawPath(int x, int y, Vertex[] vertex, String algo) {
+    public void drawPath(Vertex[] vertex, String algo) {
 
         Vertex[] path = vertex;
 
@@ -96,14 +105,6 @@ public class ImageHandler {
             writer.setColor(draw.getY(), draw.getX(), pathColor);
         }
 
-    }
-
-    public Color readPixelColor(int x, int y) {
-
-        PixelReader reader = drawableImage.getPixelReader();
-        Color color = reader.getColor(x, y);
-
-        return color;
     }
 
 }

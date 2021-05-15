@@ -6,6 +6,7 @@
 package ImageHandler;
 
 /**
+ * Vertex object used by algorithm
  *
  * @author pate
  */
@@ -22,7 +23,6 @@ public class Vertex implements Comparable<Vertex> {
         this.x = x;
         this.y = y;
         this.distance = distance;
-
 
     }
 
@@ -51,11 +51,11 @@ public class Vertex implements Comparable<Vertex> {
     }
 
     public void setStartVertex(int x, int y) {
-        this.startVertex = new Vertex(x,y,0);
+        this.startVertex = new Vertex(x, y, 0);
     }
 
     public void setEndVertex(int x, int y) {
-        this.endVertex = new Vertex(x,y,0);
+        this.endVertex = new Vertex(x, y, 0);
     }
 
     public Vertex getStartVertex() {
@@ -83,14 +83,8 @@ public class Vertex implements Comparable<Vertex> {
     }
 
     @Override
-    public String toString() {
-        return "Vertex{" + " X = " + this.x + " Y = " + this.y + " Distance = " + this.distance + '}';
-    }
-
-    @Override
     public int compareTo(Vertex otherVertex) {
         return Double.compare(this.distance, otherVertex.getDistance());
     }
-    
 
 }

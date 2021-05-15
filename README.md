@@ -4,6 +4,10 @@
 
 [Project specifications](documents/projectspecifications.md)
 
+[Project structure](documents/projectstructure.md)
+
+[Test document](documents/testdocument.md)
+
 [Hours report](documents/hoursreport.md)
 
 ## Weekly reports

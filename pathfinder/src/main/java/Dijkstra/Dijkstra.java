@@ -5,10 +5,12 @@
  */
 package Dijkstra;
 
+import DataStructures.MinHeap;
 import ImageHandler.Vertex;
 import java.util.PriorityQueue;
 
 /**
+ * Finds shortest path using Dijkstra's algorithm using Minimum heap
  *
  * @author pate
  */
@@ -17,11 +19,16 @@ public class Dijkstra {
     public char[][] map;
     public double[][] distance;
     public Vertex[][] predecessor;
-    PriorityQueue<Vertex> queue;
+    public MinHeap queue;
 
+    /**
+     * Starts the algorithm on the given coordinates
+     * @param x Start X coordinate
+     * @param y Start Y coordinate
+     */
     public void findPath(int x, int y) {
 
-        queue = new PriorityQueue<>();
+        queue = new MinHeap();
 
         boolean[][] visited = new boolean[512][512];
 
@@ -41,7 +48,13 @@ public class Dijkstra {
 
     }
 
-    public void checkNeighbours(Vertex vertex) { 
+    /**
+     *
+     * @param vertex checks for eligible neighbour from the current Vertex If
+     * found, updates distance to the Vertex and add it to the queue.
+     *
+     */
+    public void checkNeighbours(Vertex vertex) {
 
         int x = vertex.getX();
         int y = vertex.getY();
@@ -73,17 +86,42 @@ public class Dijkstra {
 
     }
 
+    /**
+     * Prints shortest distance to the end Vertex
+     *
+     * @param x end vertex X position
+     * @param y end vertex Y position
+     * @return distance to end
+     */
     public double printDistance(int x, int y) {
-        return distance[x][y];
+        return round(distance[x][y], 1);
+    }
+    
+    /**
+     * 
+     * @param value double value that is wanted to be rounded.
+     * @param precision which precision, how many decimals are wanted.
+     * @return Rounded value
+     */
+    public double round(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 
+    /**
+     *Generates path from end vertex to start vertex after algorithm is done
+     * returns all parent vertexes from end to start and sends it to ImageHandler.
+     * @param x
+     * @param y
+     * @return path[]
+     */
     public Vertex[] printPath(int x, int y) {
         int index = 0;
-        Vertex[] path = new Vertex[262144];
+        Vertex[] path = new Vertex[100000];
 
         while (true) {
             Vertex current = predecessor[x][y];
-            
+
             path[index] = current;
 
             if (current == null) {
@@ -92,7 +130,7 @@ public class Dijkstra {
 
             x = current.getX();
             y = current.getY();
-            
+
             index++;
         }
         return path;

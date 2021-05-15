@@ -7,13 +7,14 @@ package UI;
 
 import Dijkstra.Dijkstra;
 import ImageHandler.Vertex;
-//import JPS.Vertex;
 import ImageHandler.FileHandler;
 import ImageHandler.ImageHandler;
 import JPS.JPS;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -24,7 +25,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -55,7 +55,7 @@ public class GUI extends Application {
 
         BorderPane border = new BorderPane();
 
-        FileInputStream stream = new FileInputStream("src/main/java/Images/Map1.png");
+        FileInputStream stream = new FileInputStream("src/main/java/Images/Map4.png");
 
         picture = new Image(stream, 512, 512, false, false);
 
@@ -73,7 +73,7 @@ public class GUI extends Application {
         //Gridpane
         //###########################
         CheckBox dijkstra = new CheckBox("Dijkstra");
-        CheckBox jump = new CheckBox("Jump point search");
+        CheckBox jump = new CheckBox("JPS");
 
         TextField startX = new TextField();
         startX.setMaxWidth(60);
@@ -87,14 +87,18 @@ public class GUI extends Application {
         TextField endY = new TextField();
         endY.setMaxWidth(60);
 
-        TextField Time = new TextField();
-        Time.setMaxWidth(120);
+        TextField distance = new TextField();
+        distance.setMaxWidth(60);
+
+        TextField time = new TextField();
+        time.setMaxWidth(60);
 
         Label startXcord = new Label("Start X");
         Label startYcord = new Label("Start Y");
         Label endXcord = new Label("End X");
         Label endYcord = new Label("End Y");
         Label distanceTo = new Label("Distance");
+        Label executeTime = new Label("Time");
 
         CheckBox startBox = new CheckBox("Start coordinates");
         CheckBox endBox = new CheckBox("End coordinates");
@@ -127,10 +131,13 @@ public class GUI extends Application {
         grid.add(endY, 1, 17, 17, 17);
 
         grid.add(distanceTo, 0, 20, 20, 20);
-        grid.add(Time, 1, 20, 20, 20);
+        grid.add(distance, 1, 20, 20, 20);
 
-        grid.add(start, 0, 25, 25, 25);
-        grid.add(clear, 5, 25, 25, 25);
+        grid.add(executeTime, 0, 22, 22, 22);
+        grid.add(time, 1, 22, 22, 22);
+
+        grid.add(start, 0, 27, 27, 27);
+        grid.add(clear, 5, 27, 27, 27);
 
         grid.setHgap(10);
         grid.setVgap(10);
@@ -186,8 +193,8 @@ public class GUI extends Application {
         start.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-               if (dijkstra.isSelected()) {
-                    File map = new File("src/main/java/Images/Map1.map");
+                if (dijkstra.isSelected()) {
+                    File map = new File("src/main/java/Images/Map4.map");
 
                     try {
                         handler.countRows(map);
@@ -205,13 +212,16 @@ public class GUI extends Application {
                         Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     dijkstraAlgo.predecessor = handler.initiateParentCount();
+                    long start = System.nanoTime();
                     dijkstraAlgo.findPath(vertex.startVertex.getX(), vertex.startVertex.getY());
-                    //Time.setText(String.valueOf(dijkstraAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
-                    imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), dijkstraAlgo.printPath(vertex.endVertex.getX(), vertex.endVertex.getY()), "dijkstra");
+                    int runTime = (int) (System.nanoTime() - start) / 1000000;
+                    time.setText(String.valueOf(runTime) + " ms");
+                    distance.setText(String.valueOf(dijkstraAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
+                    imageHandler.drawPath(dijkstraAlgo.printPath(vertex.endVertex.getX(), vertex.endVertex.getY()), "dijkstra");
                     imageView.setImage(imageHandler.drawableImage);
                 }
                 if (jump.isSelected()) {
-                    File map = new File("src/main/java/Images/Map1.map");
+                    File map = new File("src/main/java/Images/Map4.map");
                     try {
                         handler.countRows(map);
                     } catch (IOException ex) {
@@ -227,10 +237,13 @@ public class GUI extends Application {
                     } catch (IOException ex) {
                         Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    //System.out.println(vertex.getEndVertex());
                     jpsAlgo.predecessor = handler.initiateParentCount();
-                    Time.setText(jpsAlgo.searchPath(vertex.startVertex, vertex.endVertex));
-                    imageHandler.drawPath(vertex.endVertex.getX(), vertex.endVertex.getY(), jpsAlgo.printPath(vertex.startVertex, vertex.endVertex), "JPS");
+                    long start = System.nanoTime();
+                    jpsAlgo.searchPath(vertex.startVertex, vertex.endVertex);
+                    int runTime = (int) (System.nanoTime() - start) / 1000000;
+                    time.setText(String.valueOf(runTime) + " ms");
+                    distance.setText(String.valueOf(jpsAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));
+                    imageHandler.drawPath(jpsAlgo.printPath(vertex.startVertex, vertex.endVertex), "JPS");
                     imageView.setImage(imageHandler.drawableImage);
                 }
             }
@@ -243,9 +256,10 @@ public class GUI extends Application {
             startY.clear();
             endX.clear();
             endY.clear();
-            Time.clear();
+            distance.clear();
             startBox.setSelected(false);
             endBox.setSelected(false);
+            time.clear();
             try {
                 imageHandler.setWriteableImage(picture);
             } catch (InterruptedException ex) {
@@ -260,20 +274,6 @@ public class GUI extends Application {
         stage.setScene(scene);
         stage.show();
 
-    }
-
-    public ComboBox addDropDown() {
-        ObservableList<String> maps
-                = FXCollections.observableArrayList(
-                        "Map1",
-                        "Map2",
-                        "Map3"
-                );
-        ComboBox comboBox = new ComboBox(maps);
-
-        comboBox.setValue("Map1");
-
-        return comboBox;
     }
 
     public static void main(String[] args) {

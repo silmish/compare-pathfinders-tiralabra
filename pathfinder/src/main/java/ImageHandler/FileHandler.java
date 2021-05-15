@@ -14,11 +14,13 @@ import java.io.LineNumberReader;
 import java.util.Scanner;
 
 /**
+ * Reads ASCII files and generates Map data for algorithms
  *
  * @author pate
  */
 public class FileHandler {
- public char[][] map;
+
+    public char[][] map;
     public double[][] distance;
     public int row;
     public int column;
@@ -27,6 +29,13 @@ public class FileHandler {
 
     }
 
+    /**
+     * Reads the measurements of the file and gives the Map array pixel amount.
+     *
+     * @param file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void countRows(File file) throws FileNotFoundException, IOException {
 
         try (LineNumberReader reader = new LineNumberReader(new FileReader(file))) {
@@ -41,10 +50,18 @@ public class FileHandler {
         }
         map = new char[row + 1][column + 1];
     }
+    
+    /**
+     * Reads the lines and rows of ACII file and generates pixel information
+     * @param file
+     * @return Array pixel information
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
 
     public char[][] createMap(File file) throws FileNotFoundException, IOException {
 
-        char[][] graph = new char[row+1][column+1];
+        char[][] graph = new char[row + 1][column + 1];
 
         Scanner line = new Scanner(new BufferedReader(new FileReader(file)));
 
@@ -56,15 +73,21 @@ public class FileHandler {
                     graph[i][j] = String.copyValueOf(nextLine).charAt(j);
                 }
             }
-           
+
         }
 
         return graph;
     }
-
+    
+    /**
+     * Sets up distance array
+     * @return Array dimensions
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public double[][] initiateDistanceArray() throws FileNotFoundException, IOException {
 
-        double[][] graph = new double[row+1][column+1];
+        double[][] graph = new double[row + 1][column + 1];
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -75,9 +98,14 @@ public class FileHandler {
         return graph;
     }
     
+    /**
+     * Generates predecessor array dimensions
+     * @return array dimensions
+     */
+
     public Vertex[][] initiateParentCount() {
-        Vertex[][] graph =  new Vertex[row+1][column+1];
-        
+        Vertex[][] graph = new Vertex[row + 1][column + 1];
+
         return graph;
     }
 }
