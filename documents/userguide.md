@@ -38,4 +38,16 @@ gradle test jacocoTestReport
 
 The report can be found in pathfinder/build/reports/jacoco/test/html/index.html
 
+## How to use the program
 
+Run the program with the instructions above.
+
+Choose one of the algorithms by clicking the check box.
+
+After this choose either start or end check box and click on the white are on the map.
+
+After this press start and the shortest path determined by the algorithm you chose will be drawn.
+
+You can choose same points and swap algorithms to compare paths easily.
+
+When the map get cluttered or want clear view then press clear and everything gets back to original state. 
