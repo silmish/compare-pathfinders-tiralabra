@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"DataStructures"},{"l":"Dijkstra"},{"l":"ImageHandler"},{"l":"JPS"},{"l":"pathfinder"},{"l":"UI"}]

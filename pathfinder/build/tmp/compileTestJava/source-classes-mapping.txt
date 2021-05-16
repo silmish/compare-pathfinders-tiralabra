@@ -1,0 +1,6 @@
+Algorithms/JPSTest.java
+ Algorithms.JPSTest
+DataStructures/MinHeapTest.java
+ DataStructures.MinHeapTest
+Algorithms/DijkstraTest.java
+ Algorithms.DijkstraTest

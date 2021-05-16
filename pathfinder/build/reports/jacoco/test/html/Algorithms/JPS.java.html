@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JPS.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pathfinder</a> &gt; <a href="index.source.html" class="el_package">Algorithms</a> &gt; <span class="el_source">JPS.java</span></div><h1>JPS.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Algorithms;
+
+import DataStructures.MinHeap;
+import ImageHandler.Vertex;
+
+
+/**
+ * Finds shortest path using Jump Point Search algorithm
+ *
+ * @author pate
+ */
+<span class="fc" id="L17">public class JPS {</span>
+
+    public char[][] map;
+    public double[][] distance;
+    public Vertex[][] predecessor;
+    public boolean[][] visited;
+    MinHeap queue;
+<span class="fc" id="L24">    Vertex end = new Vertex(0, 0, 0);</span>
+
+    /**
+     * Starts the algorithm with given start and end Vertex. Polls next Vertex
+     * from heap with shortest estimate distance to the end Vertex Adds vertexes
+     * to the heap if not visited before or distance is shorter that previously
+     * known.
+     *
+     * @param startVertex Given start Vertex.
+     * @param endVertex Given end Vertex.
+     * @return
+     */
+    public String findPath(Vertex startVertex, Vertex endVertex) {
+<span class="fc" id="L37">        queue = new MinHeap();</span>
+<span class="fc" id="L38">        visited = new boolean[512][512];</span>
+<span class="fc" id="L39">        queue.add(startVertex);</span>
+<span class="fc" id="L40">        distance[startVertex.getX()][startVertex.getY()] = 0;</span>
+<span class="fc" id="L41">        end = endVertex;</span>
+<span class="fc" id="L42">        int endX = endVertex.getX();</span>
+<span class="fc" id="L43">        int endY = endVertex.getY();</span>
+<span class="fc" id="L44">        Vertex[] neighbours = new Vertex[9];</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        while (!queue.isEmpty()) {</span>
+<span class="fc" id="L46">            Vertex current = queue.poll();</span>
+<span class="fc bfc" id="L47" title="All 4 branches covered.">            if (current.getX() == endX &amp;&amp; current.getY() == endY) {</span>
+<span class="fc" id="L48">                return &quot;Path found&quot;;</span>
+            }
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (!visited[current.getX()][current.getY()]) {</span>
+<span class="fc" id="L52">                visited[current.getX()][current.getY()] = true;</span>
+<span class="fc" id="L53">                neighbours = pruneNeighbours(current);</span>
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                for (int i = 0; i &lt; neighbours.length; i++) {</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">                    if (neighbours[i] != null) {</span>
+<span class="fc" id="L57">                        int directionX = movementDirection(neighbours[i].getX(), current.getX());</span>
+<span class="fc" id="L58">                        int directionY = movementDirection(neighbours[i].getY(), current.getY());</span>
+<span class="fc" id="L59">                        Vertex jump = jump(current, directionX, directionY);</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                        if (jump == null) {</span>
+<span class="fc" id="L62">                            continue;</span>
+                        }
+
+<span class="fc" id="L65">                        double currentDistance = distance[jump.getX()][jump.getY()];</span>
+<span class="fc" id="L66">                        double jumpDistance = jumpDistance(current, jump, directionX, directionY);</span>
+<span class="fc" id="L67">                        double newDistance = distance[current.getX()][current.getY()] + jumpDistance;</span>
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                        if (newDistance &lt; currentDistance) {</span>
+<span class="fc" id="L70">                            distance[jump.getX()][jump.getY()] = newDistance;</span>
+<span class="fc" id="L71">                            predecessor[jump.getX()][jump.getY()] = current;</span>
+<span class="fc" id="L72">                            jump.setDistance(distanceToEnd(jump, end) + newDistance);</span>
+<span class="fc" id="L73">                            queue.add(jump);</span>
+                        }
+                    }
+                }
+            }
+
+<span class="fc" id="L79">        }</span>
+<span class="nc" id="L80">        return &quot;No path to point&quot;;</span>
+    }
+
+    /**
+     *
+     * @param vertex Next Vertex to be pruned for neighbours. Prunes only the
+     * neighbours that match the direction where to travel.
+     * @return Eligible neighbours that can be traveled to.
+     *
+     */
+    public Vertex[] pruneNeighbours(Vertex vertex) {
+<span class="fc" id="L91">        Vertex[] neighbours = new Vertex[8];</span>
+<span class="fc" id="L92">        int x = vertex.getX();</span>
+<span class="fc" id="L93">        int y = vertex.getY();</span>
+<span class="fc" id="L94">        int index = 0;</span>
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (predecessor[x][y] == null) {</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            for (int i = -1; i &lt;= 1; i++) {</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">                for (int j = -1; j &lt;= 1; j++) {</span>
+
+<span class="pc bpc" id="L100" title="1 of 6 branches missed.">                    if (i == 0 &amp;&amp; j == 0 || (map[x + i][y + j] != '.')) {</span>
+<span class="nc" id="L101">                        continue;</span>
+                    }
+
+<span class="pc bpc" id="L104" title="2 of 4 branches missed.">                    if (x + i == y || y + j == x) {</span>
+<span class="nc" id="L105">                        neighbours[index] = new Vertex(x + i, y + j, 1);</span>
+                    } else {
+<span class="pc bpc" id="L107" title="2 of 4 branches missed.">                        if (map[x + i][y] == '.' &amp;&amp; map[x][y + j] == '.') {</span>
+<span class="fc" id="L108">                            neighbours[index] = new Vertex(x + i, y + j, Math.sqrt(2));</span>
+                        }
+                    }
+
+<span class="fc" id="L112">                    index++;</span>
+                }
+            }
+<span class="fc" id="L115">            return neighbours;</span>
+        }
+<span class="fc" id="L117">        int directionX = movementDirection(vertex.getX(), predecessor[x][y].getX());</span>
+<span class="fc" id="L118">        int directionY = movementDirection(vertex.getY(), predecessor[x][y].getY());</span>
+
+<span class="fc bfc" id="L120" title="All 4 branches covered.">        if (directionX != 0 &amp;&amp; directionY != 0) {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            if (map[x][y + directionY] == '.') {</span>
+<span class="fc" id="L122">                neighbours[0] = new Vertex(x, y + directionY, 0);</span>
+            }
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            if (map[x + directionX][y] == '.') {</span>
+<span class="fc" id="L125">                neighbours[1] = new Vertex(x + directionX, y, 0);</span>
+            }
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">            if (map[x][y + directionY] == '.' || map[x + directionX][y] == '.') {</span>
+<span class="fc" id="L128">                neighbours[2] = new Vertex(x + directionX, y + directionY, 0);</span>
+            }
+<span class="fc bfc" id="L130" title="All 4 branches covered.">            if (map[x - directionX][y] != '.' &amp;&amp; map[x][y + directionY] == '.') {</span>
+<span class="fc" id="L131">                neighbours[3] = new Vertex(x - directionX, y + directionY, 0);</span>
+            }
+<span class="fc bfc" id="L133" title="All 4 branches covered.">            if (map[x][y - directionY] != '.' &amp;&amp; map[x + directionX][y] == '.') {</span>
+<span class="fc" id="L134">                neighbours[4] = new Vertex(x + directionX, y - directionY, 0);</span>
+            }
+        } else {
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            if (directionX == 0) {</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">                if (map[x][y + directionY] == '.') {</span>
+<span class="fc" id="L139">                    neighbours[0] = new Vertex(x, y + directionY, 0);</span>
+                }
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                if (map[x + 1][y] != '.') {</span>
+<span class="fc" id="L142">                    neighbours[1] = new Vertex(x + 1, y + directionY, 0);</span>
+                }
+<span class="fc bfc" id="L144" title="All 2 branches covered.">                if (map[x - 1][y] != '.') {</span>
+<span class="fc" id="L145">                    neighbours[2] = new Vertex(x - 1, y + directionY, 0);</span>
+                }
+            } else {
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">                if (map[x + directionX][y] == '.') {</span>
+<span class="fc" id="L149">                    neighbours[0] = new Vertex(x + directionX, y, 0);</span>
+                }
+<span class="fc bfc" id="L151" title="All 2 branches covered.">                if (map[x][y + 1] != '.') {</span>
+<span class="fc" id="L152">                    neighbours[1] = new Vertex(x + directionX, y + 1, 0);</span>
+                }
+<span class="fc bfc" id="L154" title="All 2 branches covered.">                if (map[x][y - 1] != '.') {</span>
+<span class="fc" id="L155">                    neighbours[2] = new Vertex(x + directionX, y - 1, 0);</span>
+                }
+            }
+        }
+<span class="fc" id="L159">        return neighbours;</span>
+    }
+
+    /**
+     * Jumps towards the direction defined by Vertex neighbours.
+     *
+     * @param vertex Current Vertex which is the starting point.
+     * @param dx X axis direction where to jump.
+     * @param dy Y axis direction where to jump. If no Vertex found that is
+     * either end Vertex or forced neighbour, method recurses.
+     * @return
+     */
+    private Vertex jump(Vertex vertex, int dx, int dy) {
+
+<span class="fc" id="L173">        Vertex next = new Vertex(vertex.getX() + dx, vertex.getY() + dy, 0);</span>
+<span class="fc" id="L174">        int x = next.getX();</span>
+<span class="fc" id="L175">        int y = next.getY();</span>
+
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        if (map[x][y] != '.') {</span>
+<span class="fc" id="L178">            return null;</span>
+        }
+
+<span class="fc bfc" id="L181" title="All 4 branches covered.">        if (x == end.getX() &amp;&amp; y == end.getY()) {</span>
+<span class="fc" id="L182">            return next;</span>
+        }
+
+<span class="fc bfc" id="L185" title="All 4 branches covered.">        if (dx != 0 &amp;&amp; dy != 0) {</span>
+<span class="pc bpc" id="L186" title="5 of 6 branches missed.">            if (map[x][y] != '.' &amp;&amp; map[x + dx][y] == '.' &amp;&amp; map[x][y + dy] == '.') {</span>
+<span class="nc" id="L187">                return next;</span>
+            }
+        }
+<span class="fc bfc" id="L190" title="All 4 branches covered.">        if (dx == 0 || dy == 0) {</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            if (dx != 0) {</span>
+<span class="fc bfc" id="L192" title="All 8 branches covered.">                if ((map[x + dx][y + 1] == '.' &amp;&amp; map[x][y + 1] != '.')</span>
+                        || (map[x + dx][y - 1] == '.' &amp;&amp; map[x][y - 1] != '.')) {
+<span class="fc" id="L194">                    return next;</span>
+                }
+            } else {
+<span class="fc bfc" id="L197" title="All 8 branches covered.">                if ((map[x + 1][y + dy] == '.' &amp;&amp; map[x + 1][y] != '.')</span>
+                        || (map[x - 1][y + dy] == '.' &amp;&amp; map[x - 1][y] != '.')) {
+<span class="fc" id="L199">                    return next;</span>
+                }
+            }
+        }
+<span class="fc bfc" id="L203" title="All 4 branches covered.">        if (dx != 0 &amp;&amp; dy != 0) {</span>
+
+<span class="fc bfc" id="L205" title="All 4 branches covered.">            if (jump(next, 0, dy) != null || jump(next, dx, 0) != null) {</span>
+<span class="fc" id="L206">                return next;</span>
+            }
+        }
+
+<span class="fc" id="L210">        return jump(next, dx, dy);</span>
+    }
+
+    /**
+     * Defines the direction where to move.
+     *
+     * @param to Vertex coordinate which moved towards.
+     * @param from Vertex coordinate which moved from.
+     * @return either 1, -1, 0 depending on the direction.
+     */
+    public int movementDirection(int to, int from) {
+<span class="fc" id="L221">        int direction = to - from;</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        if (direction &gt; 0) {</span>
+<span class="fc" id="L223">            return 1;</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        } else if (direction &lt; 0) {</span>
+<span class="fc" id="L225">            return -1;</span>
+        }
+<span class="fc" id="L227">        return 0;</span>
+    }
+
+    /**
+     * Estimates distance to end Vertex from current Vertex.
+     *
+     * @param current Vertex that is being looked at.
+     * @param end end Vertex that is chosen.
+     * @return Estimate distance to end Vertex.
+     */
+    public double distanceToEnd(Vertex current, Vertex end) {
+<span class="fc" id="L238">        double differenceX = current.getX() - end.getX();</span>
+<span class="fc" id="L239">        double differenceY = current.getY() - end.getY();</span>
+
+<span class="fc" id="L241">        double estimate = Math.sqrt((differenceX * differenceX) + (differenceY * differenceY));</span>
+
+<span class="fc" id="L243">        return round(estimate,2);</span>
+    }
+
+    /**
+     * Defines the distance between Vertex that is currently processed and the found jump point.
+     * @param from Current Vertex in process.
+     * @param to Jump point that was found.
+     * @param dx Direction of X axis where currently moved.
+     * @param dy Direction of Y axis where currently moved.
+     * @return Distance between from and to Vertexes.
+     */
+    public double jumpDistance(Vertex from, Vertex to, int dx, int dy) {
+
+<span class="fc" id="L256">        int differenceX = from.getX() - to.getX();</span>
+<span class="fc" id="L257">        int differenceY = from.getY() - to.getY();</span>
+
+<span class="fc bfc" id="L259" title="All 2 branches covered.">        if (differenceX &lt; 0) {</span>
+<span class="fc" id="L260">            differenceX = -differenceX;</span>
+        }
+<span class="fc bfc" id="L262" title="All 2 branches covered.">        if (differenceY &lt; 0) {</span>
+<span class="fc" id="L263">            differenceY = -differenceY;</span>
+        }
+<span class="fc bfc" id="L265" title="All 4 branches covered.">        if (dx == 0 || dy == 0) {</span>
+<span class="fc" id="L266">            return differenceX + differenceY;</span>
+        } else {
+<span class="fc" id="L268">            return differenceX * Math.sqrt(2);</span>
+        }
+    }
+    
+    /**
+     * Creates path between start and end Vertex, uses parent jump points to create path between jump points.
+     * 
+     * @param start Start Vertex that is chosen.
+     * @param end End Vertex that is chosen.
+     * @return Array of the path Vertexes.
+     */
+
+    public Vertex[] printPath(Vertex start, Vertex end) {
+<span class="nc" id="L281">        Vertex[] path = new Vertex[100000];</span>
+<span class="nc" id="L282">        path[0] = end;</span>
+<span class="nc" id="L283">        Vertex current = end;</span>
+<span class="nc" id="L284">        int index = 1;</span>
+
+<span class="nc bnc" id="L286" title="All 4 branches missed.">        while (current.getX() != start.getX() &amp;&amp; current.getY() != start.getY()) {</span>
+<span class="nc" id="L287">            Vertex previousJump = predecessor[current.getX()][current.getY()];</span>
+<span class="nc" id="L288">            int directionX = movementDirection(previousJump.getX(), current.getX());</span>
+<span class="nc" id="L289">            int directionY = movementDirection(previousJump.getY(), current.getY());</span>
+
+            while (true) {
+
+<span class="nc bnc" id="L293" title="All 4 branches missed.">                if (current.getY() == previousJump.getY() &amp;&amp; current.getX() == previousJump.getX()) {</span>
+<span class="nc" id="L294">                    break;</span>
+                }
+<span class="nc" id="L296">                current = new Vertex(current.getX() + directionX, current.getY() + directionY, 0);</span>
+<span class="nc" id="L297">                path[index] = current;</span>
+<span class="nc" id="L298">                index++;</span>
+            }
+<span class="nc" id="L300">        }</span>
+
+<span class="nc" id="L302">        return path;</span>
+    }
+    
+    /**
+     * Prints distance to end Vertex.
+     * @param x
+     * @param y
+     * @return Distance to end Vertex.
+     */
+    public double printDistance(int x, int y) {
+<span class="nc" id="L312">        return round(distance[x][y], 1);</span>
+    }
+    
+    /**
+     * 
+     * @param value double value that is wanted to be rounded.
+     * @param precision which precision, how many decimals are wanted.
+     * @return Rounded value
+     */
+    private double round(double value, int precision) {
+<span class="fc" id="L322">        int scale = (int) Math.pow(10, precision);</span>
+<span class="fc" id="L323">        return (double) Math.round(value * scale) / scale;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

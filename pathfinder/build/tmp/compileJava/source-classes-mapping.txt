@@ -1,17 +1,17 @@
-ImageHandler/FileHandler.java
- ImageHandler.FileHandler
-Dijkstra/Dijkstra.java
- Dijkstra.Dijkstra
-DataStructures/MinHeap.java
- DataStructures.MinHeap
-ImageHandler/Vertex.java
- ImageHandler.Vertex
-ImageHandler/ImageHandler.java
- ImageHandler.ImageHandler
-JPS/JPS.java
- JPS.JPS
 UI/GUI.java
  UI.GUI
  UI.GUI$1
+ImageHandler/Vertex.java
+ ImageHandler.Vertex
+ImageHandler/FileHandler.java
+ ImageHandler.FileHandler
 pathfinder/Main.java
  pathfinder.Main
+Algorithms/Dijkstra.java
+ Algorithms.Dijkstra
+Algorithms/JPS.java
+ Algorithms.JPS
+DataStructures/MinHeap.java
+ DataStructures.MinHeap
+ImageHandler/ImageHandler.java
+ ImageHandler.ImageHandler

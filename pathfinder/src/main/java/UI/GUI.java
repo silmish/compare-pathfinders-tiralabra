@@ -5,21 +5,17 @@
  */
 package UI;
 
-import Dijkstra.Dijkstra;
+import Algorithms.Dijkstra;
 import ImageHandler.Vertex;
 import ImageHandler.FileHandler;
 import ImageHandler.ImageHandler;
-import JPS.JPS;
+import Algorithms.JPS;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -239,7 +235,7 @@ public class GUI extends Application {
                     }
                     jpsAlgo.predecessor = handler.initiateParentCount();
                     long start = System.nanoTime();
-                    jpsAlgo.searchPath(vertex.startVertex, vertex.endVertex);
+                    jpsAlgo.findPath(vertex.startVertex, vertex.endVertex);
                     int runTime = (int) (System.nanoTime() - start) / 1000000;
                     time.setText(String.valueOf(runTime) + " ms");
                     distance.setText(String.valueOf(jpsAlgo.printDistance(vertex.endVertex.getX(), vertex.endVertex.getY())));

@@ -104,4 +104,10 @@ public class MinHeap {
         minHeapiPrioritize(0);
         return next;
     }
+
+    public int getSize() {
+        return size;
+    }
+    
+    
 }

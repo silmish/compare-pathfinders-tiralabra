@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dijkstra.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pathfinder</a> &gt; <a href="index.source.html" class="el_package">Algorithms</a> &gt; <span class="el_source">Dijkstra.java</span></div><h1>Dijkstra.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Algorithms;
+
+import DataStructures.MinHeap;
+import ImageHandler.Vertex;
+
+/**
+ * Finds shortest path using Dijkstra's algorithm using Minimum heap
+ *
+ * @author pate
+ */
+<span class="fc" id="L16">public class Dijkstra {</span>
+
+    public char[][] map;
+    public double[][] distance;
+    public Vertex[][] predecessor;
+    public MinHeap queue;
+<span class="fc" id="L22">    public Vertex vertex = new Vertex(0,0,0);</span>
+
+    /**
+     * Starts the algorithm on the given coordinates
+     *
+     * @param x Start X coordinate
+     * @param y Start Y coordinate
+     */
+    public void findPath(int x, int y) {
+
+<span class="fc" id="L32">        queue = new MinHeap();</span>
+
+<span class="fc" id="L34">        boolean[][] visited = new boolean[512][512];</span>
+
+<span class="fc" id="L36">        queue.add(new Vertex(x, y, 0));</span>
+<span class="fc" id="L37">        distance[x][y] = 0;</span>
+<span class="fc" id="L38">        predecessor[x][y] = null;</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        while (!queue.isEmpty()) {</span>
+
+<span class="fc" id="L42">            Vertex currentVertex = queue.poll();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (!visited[currentVertex.getX()][currentVertex.getY()]) {</span>
+<span class="fc" id="L44">                checkNeighbours(currentVertex);</span>
+            }
+
+<span class="fc" id="L47">            visited[currentVertex.getX()][currentVertex.getY()] = true;</span>
+<span class="fc" id="L48">        }</span>
+        
+<span class="fc" id="L50">    }</span>
+
+    /**
+     *
+     * @param vertex checks for eligible neighbour from the current Vertex If
+     * found, updates distance to the Vertex and add it to the queue.
+     *
+     */
+    public void checkNeighbours(Vertex vertex) {
+
+<span class="fc" id="L60">        int x = vertex.getX();</span>
+<span class="fc" id="L61">        int y = vertex.getY();</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (int i = -1; i &lt;= 1; i++) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            for (int j = -1; j &lt;= 1; j++) {</span>
+<span class="pc bpc" id="L65" title="2 of 8 branches missed.">                if (i == 0 &amp;&amp; j == 0 || x + i &lt; 0 || y + j &lt; 0) {</span>
+<span class="nc" id="L66">                    continue;</span>
+                }
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                if (map[x + i][y + j] == '.') {</span>
+<span class="fc" id="L69">                    double weight = 1;</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">                    if (i != 0 &amp;&amp; j != 0) {</span>
+<span class="fc" id="L71">                        weight = Math.sqrt(2);</span>
+                    }
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                    if (distance[x + i][y + j] &gt; distance[x][y] + weight) {</span>
+<span class="fc" id="L75">                        distance[x + i][y + j] = distance[x][y] + weight;</span>
+
+<span class="fc" id="L77">                        Vertex adjacentVertex = new Vertex(x + i, y + j, distance[x + i][y + j]);</span>
+<span class="fc" id="L78">                        predecessor[x + i][y + j] = new Vertex(x, y, 0);</span>
+<span class="fc" id="L79">                        queue.add(adjacentVertex);</span>
+
+                    }
+                }
+
+            }
+
+        }
+
+<span class="fc" id="L88">    }</span>
+
+    /**
+     * Prints shortest distance to the end Vertex
+     *
+     * @param x end vertex X position
+     * @param y end vertex Y position
+     * @return distance to end
+     */
+    public double printDistance(int x, int y) {
+<span class="fc" id="L98">        return round(distance[x][y], 1);</span>
+    }
+
+    /**
+     *
+     * @param value double value that is wanted to be rounded.
+     * @param precision which precision, how many decimals are wanted.
+     * @return Rounded value
+     */
+    public double round(double value, int precision) {
+<span class="fc" id="L108">        int scale = (int) Math.pow(10, precision);</span>
+<span class="fc" id="L109">        return (double) Math.round(value * scale) / scale;</span>
+    }
+
+    /**
+     * Generates path from end vertex to start vertex after algorithm is done
+     * returns all parent vertexes from end to start and sends it to
+     * ImageHandler.
+     *
+     * @param x
+     * @param y
+     * @return path[]
+     */
+    public Vertex[] printPath(int x, int y) {
+<span class="nc" id="L122">        int index = 0;</span>
+<span class="nc" id="L123">        Vertex[] path = new Vertex[100000];</span>
+
+        while (true) {
+<span class="nc" id="L126">            Vertex current = predecessor[x][y];</span>
+
+<span class="nc" id="L128">            path[index] = current;</span>
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (current == null) {</span>
+<span class="nc" id="L131">                break;</span>
+            }
+
+<span class="nc" id="L134">            x = current.getX();</span>
+<span class="nc" id="L135">            y = current.getY();</span>
+
+<span class="nc" id="L137">            index++;</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">        return path;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

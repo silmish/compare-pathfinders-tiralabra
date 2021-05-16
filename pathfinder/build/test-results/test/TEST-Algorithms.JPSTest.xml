@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Algorithms.JPSTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2021-05-16T13:37:36" hostname="pate-ThinkPad" time="0.195">
+  <properties/>
+  <testcase name="testMovementDirection" classname="Algorithms.JPSTest" time="0.005"/>
+  <testcase name="testFindPath" classname="Algorithms.JPSTest" time="0.108"/>
+  <testcase name="testPruneNeighboursCountWithNoParent" classname="Algorithms.JPSTest" time="0.08"/>
+  <testcase name="testDistanceToEnd" classname="Algorithms.JPSTest" time="0.0"/>
+  <testcase name="testJumpDistance" classname="Algorithms.JPSTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

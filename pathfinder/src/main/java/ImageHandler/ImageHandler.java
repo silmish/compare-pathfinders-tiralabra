@@ -5,7 +5,7 @@
  */
 package ImageHandler;
 
-import Dijkstra.Dijkstra;
+import Algorithms.Dijkstra;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
