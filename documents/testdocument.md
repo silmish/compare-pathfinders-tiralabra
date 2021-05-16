@@ -6,13 +6,13 @@ Unit tests have been made really fast in the end of the project and do not cover
 
 Imagehandler, Main and GUI has been excluded from the tests.
 
-![Whole project](documents/wholeProject.png)
+![Whole project](https://github.com/silmish/compare-pathfinders-tiralabra/blob/master/documents/wholeProject.png)
 
-![Data Strcutures](documents/Datastructure.png)
+![Data Strcutures](https://github.com/silmish/compare-pathfinders-tiralabra/blob/master/documents/Datastructure.png)
 
-![JPS](documents/JPS.png)
+![JPS](https://github.com/silmish/compare-pathfinders-tiralabra/blob/master/documents/JPS.png)
 
-![Dijkstra](documents/Dijkstra.png)
+![Dijkstra](https://github.com/silmish/compare-pathfinders-tiralabra/blob/master/documents/Dijkstra.png)
 
 
 ## Performance tests
