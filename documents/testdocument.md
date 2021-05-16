@@ -4,7 +4,16 @@
 
 Unit tests have been made really fast in the end of the project and do not cover much of the code.
 
-Imagehandler and GUI has been excluded from the tests.
+Imagehandler, Main and GUI has been excluded from the tests.
+
+![Whole project](documents/wholeProject.png)
+
+![Data Strcutures](documents/Datastructure.png)
+
+![JPS](documents/JPS.png)
+
+![Dijkstra](documents/Dijkstra.png)
+
 
 ## Performance tests
 

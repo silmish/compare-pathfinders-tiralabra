@@ -8,6 +8,8 @@
 
 [Test document](documents/testdocument.md)
 
+[User guid](documents/userguide.md)
+
 [Hours report](documents/hoursreport.md)
 
 ## Weekly reports
